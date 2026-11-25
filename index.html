@@ -12,8 +12,8 @@
 @font-face{font-family:"Frank Ruhl Libre";src:url(fonts/FrankRuhlLibre-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 
 :root{
-  --navy:#14284b; --navy-2:#1f3a66; --gold:#b8913a; --gold-soft:#f4ead3;
-  --paper:#faf7f0; --card:#ffffff; --ink:#1d2433; --muted:#5b6476; --line:#e3dccb;
+  --navy:#002160; --navy-2:#173a7a; --gold:#346d0c; --gold-soft:#eaf3e1;
+  --paper:#f6f8f4; --card:#ffffff; --ink:#1d2433; --muted:#5b6476; --line:#dde3d6;
   --err:#b3261e; --ok:#1e6b3a; --radius:12px;
 }
 *{box-sizing:border-box}
@@ -25,20 +25,19 @@ a{color:var(--navy-2)}
 
 /* כותרת */
 header.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:28px 0 40px;border-bottom:4px solid var(--gold)}
-.brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.brand img{height:54px;width:auto;display:block}
-.brand .word{font:700 22px/1 "Frank Ruhl Libre",serif;letter-spacing:.5px;color:var(--gold-soft)}
+.logo-band{background:#fff;border-bottom:1px solid var(--line);padding:14px 0}
+.logo-band img{display:block;margin:0 auto;width:min(340px,80vw);height:auto}
 .hero h1{font:700 clamp(28px,6vw,42px)/1.25 "Frank Ruhl Libre",serif;margin:0 0 6px}
-.hero .sub{font-size:clamp(18px,3.6vw,22px);color:var(--gold-soft);margin:0 0 18px;font-weight:500}
+.hero .sub{font-size:clamp(18px,3.6vw,22px);color:#cfe6bd;margin:0 0 18px;font-weight:500}
 .hero p{margin:0 0 22px;max-width:620px;color:#e6ebf3}
-.cta{display:inline-block;background:var(--gold);color:#1a1405;font-weight:700;text-decoration:none;padding:12px 26px;border-radius:999px;font-size:18px}
-.cta:hover{background:#c9a14a}
+.cta{display:inline-block;background:var(--gold);color:#fff;font-weight:700;text-decoration:none;padding:12px 26px;border-radius:999px;font-size:18px}
+.cta:hover{background:#3f8410}
 
-main{padding:28px 0 10px}
+main.wrap{padding-top:28px;padding-bottom:10px}
 section{margin:0 0 26px}
 h2{font:700 24px/1.3 "Frank Ruhl Libre",serif;color:var(--navy);margin:0 0 12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 20px}
-.notice{background:var(--gold-soft);border:1px solid #e6d5a8;border-radius:var(--radius);padding:16px 18px;font-size:16px}
+.notice{background:var(--gold-soft);border:1px solid #c9dfb6;border-radius:var(--radius);padding:16px 18px;font-size:16px}
 .notice strong{color:var(--navy)}
 
 .steps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:0;padding:0;list-style:none}
@@ -55,13 +54,13 @@ form h3:first-child{margin-top:0}
 label.f{display:block;font-weight:500;font-size:15px;margin-bottom:4px}
 .req{color:var(--err);font-weight:700}
 input[type=text],input[type=tel],input[type=email],select,textarea{width:100%;font:inherit;font-size:17px;padding:10px 12px;border:1.5px solid #cfc7b4;border-radius:8px;background:#fff;color:var(--ink)}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(31,58,102,.15)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(0,33,96,.15)}
 textarea{min-height:90px;resize:vertical}
 input.ltr{direction:ltr;text-align:right}
 .hint{font-size:14px;color:var(--muted);margin:0 0 10px}
 
 .opt{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;background:#fff;transition:border-color .15s,background .15s}
-.opt.on{border-color:var(--gold);background:#fffbf1}
+.opt.on{border-color:var(--gold);background:#f7fbf3}
 .opt>label{display:flex;gap:10px;align-items:flex-start;font-weight:700;cursor:pointer}
 .opt input[type=checkbox]{width:20px;height:20px;margin-top:4px;flex:none;accent-color:var(--navy-2)}
 .opt .more{display:none;margin:10px 30px 0 0;font-size:15px}
@@ -97,12 +96,9 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:20px 0 30px;font
 </head>
 <body>
 
+<div class="logo-band"><img src="logo.png" alt="השקעה לכתחילה - חיסכון והשקעות למהדרין ללא צורך בהיתר עיסקא" width="521" height="216"></div>
 <header class="hero">
   <div class="wrap">
-    <div class="brand">
-      <!-- לוגו: כשיתקבל הקובץ, לשמור אותו כ-logo.png בתיקייה הזו ולהחליף את השורה הבאה ב: <img src="logo.png" alt="השקעה לכתחילה"> -->
-      <span class="word">השקעה לכתחילה</span>
-    </div>
     <h1>טופס רישום לחיסכון והשקעות למהדרין</h1>
     <p class="sub">ללא צורך בהיתר עיסקא</p>
     <p>מטרתינו להביא לציבור המדקדקים מסלולי פנסיה והשקעות מחקי מדדים, בהידור הגבוה ביותר וללא כל חשש איסורי ריבית ושאר איסורים.</p>
@@ -115,7 +111,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:20px 0 30px;font
   <section>
     <h2>מה עושים כאן?</h2>
     <div class="card">
-      <p style="margin-top:0">לדרישת החברות, וע"פ בקשת גדולי ההוראה שליט"א אנו עורכים כעת רישום מקדים בכדי להביא בפניהם את דרישת הציבור למסלולים אלו.</p>
+      <p style="margin:0">לדרישת החברות, וע"פ בקשת גדולי ההוראה שליט"א אנו עורכים כעת רישום מקדים בכדי להביא בפניהם את דרישת הציבור למסלולים אלו.</p>
       <!-- קריאת גדולי ההוראה: כשיתקבל הקובץ, לשמור אותו כ-kria.pdf (או תמונה) ולהסיר את התכונה hidden -->
       <a class="letter-link" href="kria.pdf" target="_blank" rel="noopener" hidden>📜 קריאת גדולי ההוראה שליט"א</a>
     </div>
