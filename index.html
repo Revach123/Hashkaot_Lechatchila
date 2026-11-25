@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>השקעה לכתחילה - רישום מקדים</title>
+<meta name="description" content="רישום מקדים לחיסכון והשקעות למהדרין ללא צורך בהיתר עיסקא - מסלולי פנסיה וקופות גמל מחקי מדדים.">
+<style>
+@font-face{font-family:Heebo;src:url(fonts/Heebo-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Heebo;src:url(fonts/Heebo-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Heebo;src:url(fonts/Heebo-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Frank Ruhl Libre";src:url(fonts/FrankRuhlLibre-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+
+:root{
+  --navy:#14284b; --navy-2:#1f3a66; --gold:#b8913a; --gold-soft:#f4ead3;
+  --paper:#faf7f0; --card:#ffffff; --ink:#1d2433; --muted:#5b6476; --line:#e3dccb;
+  --err:#b3261e; --ok:#1e6b3a; --radius:12px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.7 Heebo,Arial,sans-serif}
+a{color:var(--navy-2)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+
+/* כותרת */
+header.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:28px 0 40px;border-bottom:4px solid var(--gold)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.brand img{height:54px;width:auto;display:block}
+.brand .word{font:700 22px/1 "Frank Ruhl Libre",serif;letter-spacing:.5px;color:var(--gold-soft)}
+.hero h1{font:700 clamp(28px,6vw,42px)/1.25 "Frank Ruhl Libre",serif;margin:0 0 6px}
+.hero .sub{font-size:clamp(18px,3.6vw,22px);color:var(--gold-soft);margin:0 0 18px;font-weight:500}
+.hero p{margin:0 0 22px;max-width:620px;color:#e6ebf3}
+.cta{display:inline-block;background:var(--gold);color:#1a1405;font-weight:700;text-decoration:none;padding:12px 26px;border-radius:999px;font-size:18px}
+.cta:hover{background:#c9a14a}
+
+main{padding:28px 0 10px}
+section{margin:0 0 26px}
+h2{font:700 24px/1.3 "Frank Ruhl Libre",serif;color:var(--navy);margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 20px}
+.notice{background:var(--gold-soft);border:1px solid #e6d5a8;border-radius:var(--radius);padding:16px 18px;font-size:16px}
+.notice strong{color:var(--navy)}
+
+.steps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:0;padding:0;list-style:none}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.steps b{display:block;color:var(--navy);font-size:18px;margin-bottom:4px}
+.steps .num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:15px;margin-bottom:8px}
+.letter-link{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;border:1.5px solid var(--navy-2);border-radius:999px;padding:8px 18px;margin-top:6px}
+
+/* טופס */
+form h3{font-size:19px;color:var(--navy);margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+form h3:first-child{margin-top:0}
+.grid{display:grid;gap:12px 16px;grid-template-columns:1fr 1fr}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+label.f{display:block;font-weight:500;font-size:15px;margin-bottom:4px}
+.req{color:var(--err);font-weight:700}
+input[type=text],input[type=tel],input[type=email],select,textarea{width:100%;font:inherit;font-size:17px;padding:10px 12px;border:1.5px solid #cfc7b4;border-radius:8px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(31,58,102,.15)}
+textarea{min-height:90px;resize:vertical}
+input.ltr{direction:ltr;text-align:right}
+.hint{font-size:14px;color:var(--muted);margin:0 0 10px}
+
+.opt{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;background:#fff;transition:border-color .15s,background .15s}
+.opt.on{border-color:var(--gold);background:#fffbf1}
+.opt>label{display:flex;gap:10px;align-items:flex-start;font-weight:700;cursor:pointer}
+.opt input[type=checkbox]{width:20px;height:20px;margin-top:4px;flex:none;accent-color:var(--navy-2)}
+.opt .more{display:none;margin:10px 30px 0 0;font-size:15px}
+.opt.on .more{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.opt .more select{width:auto;min-width:80px;padding:6px 10px}
+.opt .more input{width:200px;max-width:100%}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.pair{grid-template-columns:1fr}}
+.pair .opt{margin-bottom:10px}
+
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:15.5px;background:#f6f3ea;border-radius:10px;padding:12px 14px;margin:14px 0}
+.consent input{width:20px;height:20px;margin-top:4px;flex:none;accent-color:var(--navy-2)}
+
+.err-msg{color:var(--err);font-size:14px;margin-top:4px;display:none}
+.bad .err-msg{display:block}
+.bad input,.bad select{border-color:var(--err)}
+.bad.opt,.bad.consent{outline:2px solid var(--err);outline-offset:2px}
+
+.submit{display:block;width:100%;background:var(--navy);color:#fff;border:0;border-radius:10px;font:700 19px Heebo,Arial,sans-serif;padding:14px;cursor:pointer;margin-top:16px}
+.submit:hover{background:var(--navy-2)}
+.submit[disabled]{opacity:.6;cursor:wait}
+.status{margin-top:12px;font-weight:500;display:none}
+.status.show{display:block}
+.status.err{color:var(--err)}
+.done{text-align:center;padding:30px 18px}
+.done h2{color:var(--ok)}
+.hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+footer{border-top:1px solid var(--line);margin-top:20px;padding:20px 0 30px;font-size:14px;color:var(--muted)}
+.contact{display:grid;gap:8px}
+.contact a{font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <!-- לוגו: כשיתקבל הקובץ, לשמור אותו כ-logo.png בתיקייה הזו ולהחליף את השורה הבאה ב: <img src="logo.png" alt="השקעה לכתחילה"> -->
+      <span class="word">השקעה לכתחילה</span>
+    </div>
+    <h1>טופס רישום לחיסכון והשקעות למהדרין</h1>
+    <p class="sub">ללא צורך בהיתר עיסקא</p>
+    <p>מטרתינו להביא לציבור המדקדקים מסלולי פנסיה והשקעות מחקי מדדים, בהידור הגבוה ביותר וללא כל חשש איסורי ריבית ושאר איסורים.</p>
+    <a class="cta" href="#register">לרישום מקדים</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2>מה עושים כאן?</h2>
+    <div class="card">
+      <p style="margin-top:0">לדרישת החברות, וע"פ בקשת גדולי ההוראה שליט"א אנו עורכים כעת רישום מקדים בכדי להביא בפניהם את דרישת הציבור למסלולים אלו.</p>
+      <!-- קריאת גדולי ההוראה: כשיתקבל הקובץ, לשמור אותו כ-kria.pdf (או תמונה) ולהסיר את התכונה hidden -->
+      <a class="letter-link" href="kria.pdf" target="_blank" rel="noopener" hidden>📜 קריאת גדולי ההוראה שליט"א</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>איך נרשמים?</h2>
+    <ol class="steps">
+      <li><span class="num">1</span><b>ממלאים את הטופס</b>פרטים אישיים וסימון קופות הגמל הרלוונטיות למשפחה.</li>
+      <li><span class="num">2</span><b>הנתונים מועברים</b>לסוכני ביטוח ו/או לחברות המנהלות קרנות פנסיה וקופות גמל.</li>
+      <li><span class="num">3</span><b>יוצרים איתכם קשר</b>כשהמסלולים יהיו זמינים - ללא כל התחייבות מצדכם.</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="notice">
+      <strong>שימו לב:</strong> מדובר ברישום בלבד, הרישום אינו מחייב, ואין לראות בדברים המלצה, שיווק, או ייעוץ השקעות, או תחליף לשיקול דעת עצמאי.
+    </div>
+  </section>
+
+  <section id="register">
+    <h2>טופס רישום</h2>
+    <div class="card" id="formCard">
+      <form id="regForm" novalidate>
+        <div class="hp" aria-hidden="true"><label>אתר <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+        <h3>פרטים אישיים</h3>
+        <p class="hint">שדות המסומנים ב-<span class="req">*</span> הם שדות חובה.</p>
+        <div class="grid">
+          <div data-field="first_name"><label class="f" for="first_name">שם פרטי <span class="req">*</span></label>
+            <input type="text" id="first_name" name="first_name" autocomplete="given-name" maxlength="60" required>
+            <div class="err-msg">נא למלא שם פרטי</div></div>
+          <div data-field="last_name"><label class="f" for="last_name">שם משפחה <span class="req">*</span></label>
+            <input type="text" id="last_name" name="last_name" autocomplete="family-name" maxlength="60" required>
+            <div class="err-msg">נא למלא שם משפחה</div></div>
+          <div data-field="id_number"><label class="f" for="id_number">ת.ז. <span class="req">*</span></label>
+            <input type="text" id="id_number" name="id_number" inputmode="numeric" maxlength="9" class="ltr" required>
+            <div class="err-msg">מספר ת.ז. אינו תקין</div></div>
+          <div data-field="phone"><label class="f" for="phone">פלאפון <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" maxlength="14" class="ltr" placeholder="05X-XXXXXXX" required>
+            <div class="err-msg">מספר פלאפון אינו תקין</div></div>
+          <div data-field="email" style="grid-column:1/-1"><label class="f" for="email">אימייל</label>
+            <input type="email" id="email" name="email" autocomplete="email" maxlength="120" class="ltr">
+            <div class="err-msg">כתובת האימייל אינה תקינה</div></div>
+        </div>
+
+        <h3>קופות גמל</h3>
+        <p class="hint"><b>סמן את קופות הגמל הרלוונטיות בעבורך:</b></p>
+        <div data-field="funds">
+          <div class="pair">
+            <div class="opt"><label><input type="checkbox" name="pension" value="one" data-group="pension"> קרן פנסיה לאחד מבני הזוג</label></div>
+            <div class="opt"><label><input type="checkbox" name="pension" value="both" data-group="pension"> קרן פנסיה לשני בני הזוג</label></div>
+          </div>
+          <div class="opt"><label><input type="checkbox" name="child_savings"> חיסכון לכל ילד</label>
+            <div class="more">מספר הילדים שיש על שמם קופת חיסכון לכל ילד:
+              <select name="child_count" aria-label="מספר ילדים"></select></div></div>
+          <div class="opt"><label><input type="checkbox" name="hishtalmut"> קרן השתלמות</label>
+            <div class="more">אם יש במשפחה כמה קרנות השתלמות, מספרן:
+              <select name="hishtalmut_count" aria-label="מספר קרנות השתלמות"></select></div></div>
+          <div class="opt"><label><input type="checkbox" name="gemel"> קופת גמל להשקעה</label>
+            <div class="more">אם יש במשפחה כמה קופות גמל, מספרן:
+              <select name="gemel_count" aria-label="מספר קופות גמל"></select></div></div>
+          <div class="err-msg">נא לסמן לפחות קופה אחת</div>
+        </div>
+
+        <label class="consent" data-field="consent"><input type="checkbox" name="consent" required>
+          <span><span class="req">*</span> אני מעוניין במסלולים במתווה "השקעה לכתחילה - חיסכון והשקעות למהדרין ללא צורך בהיתר עיסקא" בקופות הגמל שציינתי, ומאשר להעביר את המידע שמסרתי לסוכני ביטוח ו/או חברות המנהלות קרנות פנסיה וקופות גמל על מנת שיצרו עימי קשר.
+          <span class="err-msg">יש לאשר כדי לשלוח את הטופס</span></span></label>
+
+        <label class="f" for="notes">הערות</label>
+        <textarea id="notes" name="notes" maxlength="1000"></textarea>
+
+        <button class="submit" type="submit">לאישור ושליחת הטופס</button>
+
+        <h3 style="margin-top:30px">שאלות נוספות</h3>
+        <div class="opt"><label><input type="checkbox" name="invest"> אני מעוניין גם להשקיע (בחשבון מסחר עצמאי) בקרנות סל ונאמנות ללא היתר עיסקא במתווה הנ"ל</label>
+          <div class="more">סכום משוער: <input type="text" name="invest_amount" inputmode="numeric" class="ltr" placeholder="0" aria-label="סכום משוער"> ₪</div></div>
+        <div class="opt"><label><input type="checkbox" name="mortgage"> נטלתי הלוואת משכנתא (או שבכוונתי ליטול), ואני מעוניין בפתרונות למהדרין להלוואות משכנתא.</label></div>
+
+        <button class="submit" type="submit">לאישור ושליחת הטופס</button>
+        <div class="status" id="status" role="status"></div>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <h2>דרכי יצירת קשר</h2>
+    <div class="card contact">
+      <div>קו מידע והרשמה טלפונית: <a href="tel:033065323" dir="ltr">03-306-5323</a> - ניתן להשאיר הודעות בשלוחה 8.</div>
+      <div>אימייל: <a href="mailto:a033065323@gmail.com" dir="ltr">a033065323@gmail.com</a></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">מדובר ברישום בלבד, הרישום אינו מחייב, ואין לראות בדברים המלצה, שיווק, או ייעוץ השקעות, או תחליף לשיקול דעת עצמאי.</div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById('regForm');
+
+  // רשימות הבחירה: ילדים 1-20, קרנות/קופות 1-10
+  function fill(name, max) {
+    var s = form.elements[name];
+    for (var i = 1; i <= max; i++) s.add(new Option(String(i), String(i)));
+  }
+  fill('child_count', 20); fill('hishtalmut_count', 10); fill('gemel_count', 10);
+
+  // סימון/ביטול: פתיחת שדות המשך, ובחירה אחת מתוך שתיים בקרן הפנסיה
+  form.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.type !== 'checkbox') return;
+    if (t.dataset.group && t.checked) {
+      form.querySelectorAll('input[data-group="' + t.dataset.group + '"]').forEach(function (o) {
+        if (o !== t) { o.checked = false; o.closest('.opt').classList.remove('on'); }
+      });
+    }
+    var opt = t.closest('.opt');
+    if (opt) opt.classList.toggle('on', t.checked);
+    var wrap = t.closest('[data-field]');
+    if (wrap) wrap.classList.remove('bad');
+  });
+  form.addEventListener('input', function (e) {
+    var wrap = e.target.closest('[data-field]');
+    if (wrap) wrap.classList.remove('bad');
+  });
+
+  // סכום: ספרות בלבד, עם פסיק כל 3 ספרות
+  var amount = form.elements.invest_amount;
+  amount.addEventListener('input', function () {
+    var d = amount.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 12);
+    amount.value = d ? Number(d).toLocaleString('en-US') : '';
+  });
+  form.elements.id_number.addEventListener('input', function (e) { e.target.value = e.target.value.replace(/\D/g, ''); });
+
+  function validId(id) {
+    if (!/^\d{5,9}$/.test(id)) return false;
+    id = id.padStart(9, '0');
+    var sum = 0;
+    for (var i = 0; i < 9; i++) { var n = Number(id[i]) * ((i % 2) + 1); sum += n > 9 ? n - 9 : n; }
+    return sum % 10 === 0;
+  }
+  function cleanPhone(p) { return String(p).replace(/[\s\-()]/g, '').replace(/^\+972/, '0'); }
+
+  function check() {
+    var f = form.elements, bad = [];
+    if (!f.first_name.value.trim()) bad.push('first_name');
+    if (!f.last_name.value.trim()) bad.push('last_name');
+    if (!validId(f.id_number.value.trim())) bad.push('id_number');
+    if (!/^05\d{8}$/.test(cleanPhone(f.phone.value))) bad.push('phone');
+    var em = f.email.value.trim();
+    if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) bad.push('email');
+    var anyFund = form.querySelector('[data-field="funds"] input:checked');
+    if (!anyFund) bad.push('funds');
+    if (!f.consent.checked) bad.push('consent');
+    form.querySelectorAll('[data-field]').forEach(function (w) { w.classList.toggle('bad', bad.indexOf(w.dataset.field) >= 0); });
+    return bad;
+  }
+
+  var status = document.getElementById('status');
+  function say(msg, err) { status.textContent = msg; status.className = 'status show' + (err ? ' err' : ''); }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var bad = check();
+    if (bad.length) {
+      var first = form.querySelector('[data-field="' + bad[0] + '"]');
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var inp = first.querySelector('input'); if (inp) inp.focus({ preventScroll: true });
+      say('נא לתקן את השדות המסומנים', true);
+      return;
+    }
+    var f = form.elements;
+    var pension = form.querySelector('input[name="pension"]:checked');
+    var data = {
+      website: f.website.value,
+      first_name: f.first_name.value.trim(), last_name: f.last_name.value.trim(),
+      id_number: f.id_number.value.trim(), phone: cleanPhone(f.phone.value), email: f.email.value.trim(),
+      pension: pension ? pension.value : '',
+      child_count: f.child_savings.checked ? Number(f.child_count.value) : 0,
+      hishtalmut_count: f.hishtalmut.checked ? Number(f.hishtalmut_count.value) : 0,
+      gemel_count: f.gemel.checked ? Number(f.gemel_count.value) : 0,
+      invest: f.invest.checked, invest_amount: f.invest.checked ? Number(f.invest_amount.value.replace(/\D/g, '')) || 0 : 0,
+      mortgage: f.mortgage.checked, notes: f.notes.value.trim(), consent: true
+    };
+    var btns = form.querySelectorAll('.submit');
+    btns.forEach(function (b) { b.disabled = true; });
+    say('שולח...');
+    fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.error || 'error');
+        var card = document.getElementById('formCard');
+        card.innerHTML = '<div class="done"><h2>תודה, הרישום התקבל</h2><p>הפרטים נשמרו. ניצור קשר כשהמסלולים יהיו זמינים.</p></div>';
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      })
+      .catch(function () {
+        btns.forEach(function (b) { b.disabled = false; });
+        say('השליחה נכשלה. אפשר לנסות שוב, או להירשם בטלפון 03-306-5323.', true);
+      });
+  });
+})();
+</script>
+</body>
+</html>
