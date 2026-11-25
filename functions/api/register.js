@@ -1,6 +1,6 @@
 // lehathila/functions/api/register.js
 // POST /api/register - שמירת רישום מקדים מטופס דף הנחיתה ב-D1.
-// Binding נדרש בפרויקט ה-Pages של lehathila: DB (מסד D1). הטבלה: ראה schema.sql.
+// Binding נדרש בפרויקט ה-Pages: Lechatchila (מסד D1 lehathila_db; גם DB נתמך). הטבלה: ראה schema.sql.
 
 const H = { "Content-Type": "application/json; charset=utf-8" };
 const out = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: H });
@@ -43,7 +43,8 @@ export async function onRequest({ request, env }) {
   if (bad.length) return out({ ok: false, error: "invalid", fields: bad }, 400);
 
   try {
-    await env.DB.prepare(
+    const db = env.Lechatchila || env.DB;
+    await db.prepare(
       `INSERT INTO registrations (created_at, first_name, last_name, id_number, phone, email, pension,
          child_count, hishtalmut_count, gemel_count, invest, invest_amount, mortgage, notes, source)
        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`

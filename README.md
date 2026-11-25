@@ -12,7 +12,7 @@
 1. **D1:** Storage & Databases ← D1 ← Create, בשם `lehathila_db`. בלשונית Console מריצים את תוכן `schema.sql`.
 2. **Pages:** Workers & Pages ← Create ← Pages ← Connect to Git ← הריפו הזה.
    Framework preset: None, Build command: ריק, Build output directory: `/`.
-3. **Binding:** בפרויקט ← Settings ← Bindings ← Add ← D1 database: שם המשתנה `DB`, המסד `lehathila_db`. אחר כך Deployments ← Retry deployment.
+3. **Binding:** בפרויקט ← Settings ← Bindings ← Add ← D1 database: שם המשתנה `Lechatchila`, המסד `lehathila_db`. אחר כך Deployments ← Retry deployment.
 4. **דומיין:** בפרויקט ← Custom domains ← `lehathila.com` (ואם רוצים גם `www.lehathila.com`).
 
 ## קבצים שחסרים
