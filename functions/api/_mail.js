@@ -54,7 +54,7 @@ const opts = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => `<opt
 export function ampBody(toEmail) {
   const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
   return `<!doctype html>
-<html ⚡4email lang="he" dir="rtl">
+<html ⚡4email lang="he">
 <head>
 <meta charset="utf-8">
 <script async src="https://cdn.ampproject.org/v0.js"></script>
@@ -64,7 +64,7 @@ export function ampBody(toEmail) {
 <style amp-custom>
 body{margin:0;background:#f6f8f4;font-family:Arial,Helvetica,sans-serif;color:#1d2433}
 .wrap{max-width:600px;margin:0 auto;padding:12px}
-.box{background:#fff;border:1px solid #dde3d6;border-radius:12px;overflow:hidden}
+.box{background:#fff;border:1px solid #dde3d6;border-radius:12px}
 .logo{padding:12px 40px;border-bottom:4px solid #346d0c}
 .in{padding:16px 18px}
 h1{font-size:21px;color:#002160;margin:0 0 8px}
@@ -73,11 +73,12 @@ p{font-size:15px;line-height:1.6;margin:0 0 10px}
 .note{background:#eaf3e1;border:1px solid #c9dfb6;border-radius:10px;padding:10px 12px;font-size:14px}
 label.f{display:block;font-size:14px;font-weight:bold;margin:10px 0 4px}
 .req{color:#b3261e}
-input[type=text],input[type=tel],input[type=email],select,textarea{width:100%;box-sizing:border-box;font-size:16px;padding:9px 10px;border:1px solid #c5ccbd;border-radius:8px;background:#fff;font-family:Arial,Helvetica,sans-serif}
+.fld{width:100%;box-sizing:border-box;font-size:16px;padding:9px 10px;border:1px solid #c5ccbd;border-radius:8px;background:#fff;font-family:Arial,Helvetica,sans-serif}
 textarea{height:70px}
 .opt{border:1px solid #dde3d6;border-radius:10px;padding:9px 11px;margin:0 0 8px;font-size:15px}
 .opt b{color:#002160}
-.opt select{width:auto;padding:4px 8px;font-size:15px}
+.sel{width:auto;padding:4px 8px;font-size:15px;border:1px solid #c5ccbd;border-radius:8px;background:#fff}
+.amt{width:160px}
 .consent{background:#f3f5f0;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.55;margin:12px 0}
 .err{color:#b3261e;font-size:13px}
 button{display:block;width:100%;background:#002160;color:#fff;border:0;border-radius:10px;font-size:18px;font-weight:bold;padding:13px;margin-top:14px;font-family:Arial,Helvetica,sans-serif}
@@ -102,37 +103,37 @@ button{display:block;width:100%;background:#002160;color:#fff;border:0;border-ra
 <div class="fields">
 <h2>פרטים אישיים</h2>
 <label class="f" for="fn">שם פרטי <span class="req">*</span></label>
-<input type="text" id="fn" name="first_name" required maxlength="60">
+<input class="fld" type="text" id="fn" name="first_name" required maxlength="60">
 <span class="err" visible-when-invalid="valueMissing" validation-for="fn">נא למלא שם פרטי</span>
 <label class="f" for="ln">שם משפחה <span class="req">*</span></label>
-<input type="text" id="ln" name="last_name" required maxlength="60">
+<input class="fld" type="text" id="ln" name="last_name" required maxlength="60">
 <span class="err" visible-when-invalid="valueMissing" validation-for="ln">נא למלא שם משפחה</span>
 <label class="f" for="tz">ת.ז. <span class="req">*</span></label>
-<input type="text" id="tz" name="id_number" required pattern="[0-9]{5,9}" maxlength="9" inputmode="numeric">
+<input class="fld" type="text" id="tz" name="id_number" required pattern="[0-9]{5,9}" maxlength="9">
 <span class="err" visible-when-invalid="valueMissing" validation-for="tz">נא למלא ת.ז.</span>
 <span class="err" visible-when-invalid="patternMismatch" validation-for="tz">ספרות בלבד</span>
 <label class="f" for="ph">פלאפון <span class="req">*</span></label>
-<input type="tel" id="ph" name="phone" required maxlength="14" placeholder="05X-XXXXXXX">
+<input class="fld" type="tel" id="ph" name="phone" required maxlength="14" placeholder="05X-XXXXXXX">
 <span class="err" visible-when-invalid="valueMissing" validation-for="ph">נא למלא פלאפון</span>
 <label class="f" for="em">אימייל</label>
-<input type="email" id="em" name="email" value="${esc(toEmail)}" maxlength="120">
+<input class="fld" type="email" id="em" name="email" value="${esc(toEmail)}" maxlength="120">
 
 <h2>קופות גמל</h2>
 <p><b>סמן את קופות הגמל הרלוונטיות בעבורך:</b></p>
 <div class="opt"><label><input type="radio" name="pension" value="" checked> ללא קרן פנסיה</label></div>
 <div class="opt"><label><input type="radio" name="pension" value="one"> <b>קרן פנסיה לאחד מבני הזוג</b></label></div>
 <div class="opt"><label><input type="radio" name="pension" value="both"> <b>קרן פנסיה לשני בני הזוג</b></label></div>
-<div class="opt"><label><input type="checkbox" name="child_savings" value="1"> <b>חיסכון לכל ילד</b></label><br>מספר הילדים שיש על שמם קופת חיסכון לכל ילד: <select name="child_count">${opts(1, 20)}</select></div>
-<div class="opt"><label><input type="checkbox" name="hishtalmut" value="1"> <b>קרן השתלמות</b></label><br>אם יש במשפחה כמה קרנות השתלמות, מספרן: <select name="hishtalmut_count">${opts(1, 10)}</select></div>
-<div class="opt"><label><input type="checkbox" name="gemel" value="1"> <b>קופת גמל להשקעה</b></label><br>אם יש במשפחה כמה קופות גמל, מספרן: <select name="gemel_count">${opts(1, 10)}</select></div>
+<div class="opt"><label><input type="checkbox" name="child_savings" value="1"> <b>חיסכון לכל ילד</b></label><br>מספר הילדים שיש על שמם קופת חיסכון לכל ילד: <select class="sel" name="child_count">${opts(1, 20)}</select></div>
+<div class="opt"><label><input type="checkbox" name="hishtalmut" value="1"> <b>קרן השתלמות</b></label><br>אם יש במשפחה כמה קרנות השתלמות, מספרן: <select class="sel" name="hishtalmut_count">${opts(1, 10)}</select></div>
+<div class="opt"><label><input type="checkbox" name="gemel" value="1"> <b>קופת גמל להשקעה</b></label><br>אם יש במשפחה כמה קופות גמל, מספרן: <select class="sel" name="gemel_count">${opts(1, 10)}</select></div>
 
 <div class="consent"><label><input type="checkbox" name="consent" value="1" required> <span class="req">*</span> אני מעוניין במסלולים במתווה "השקעה לכתחילה - חיסכון והשקעות למהדרין ללא צורך בהיתר עיסקא" בקופות הגמל שציינתי, ומאשר להעביר את המידע שמסרתי לסוכני ביטוח ו/או חברות המנהלות קרנות פנסיה וקופות גמל על מנת שיצרו עימי קשר.</label></div>
 
 <label class="f" for="nt">הערות</label>
-<textarea id="nt" name="notes" maxlength="1000"></textarea>
+<textarea class="fld" id="nt" name="notes" maxlength="1000"></textarea>
 
 <h2>שאלות נוספות</h2>
-<div class="opt"><label><input type="checkbox" name="invest" value="1"> אני מעוניין גם להשקיע (בחשבון מסחר עצמאי) בקרנות סל ונאמנות ללא היתר עיסקא במתווה הנ"ל</label><br>סכום משוער (₪): <input type="text" name="invest_amount" pattern="[0-9,]*" inputmode="numeric" maxlength="16" placeholder="1,000"></div>
+<div class="opt"><label><input type="checkbox" name="invest" value="1"> אני מעוניין גם להשקיע (בחשבון מסחר עצמאי) בקרנות סל ונאמנות ללא היתר עיסקא במתווה הנ"ל</label><br>סכום משוער (₪): <input class="fld amt" type="text" name="invest_amount" pattern="[0-9,]*" maxlength="16" placeholder="1,000"></div>
 <div class="opt"><label><input type="checkbox" name="mortgage" value="1"> נטלתי הלוואת משכנתא (או שבכוונתי ליטול), ואני מעוניין בפתרונות למהדרין להלוואות משכנתא.</label></div>
 
 <button type="submit">לאישור ושליחת הטופס</button>
