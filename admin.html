@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ניהול רישומים - השקעה לכתחילה</title>
+<style>
+@font-face{font-family:Heebo;src:url(fonts/Heebo-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Heebo;src:url(fonts/Heebo-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Heebo;src:url(fonts/Heebo-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Frank Ruhl Libre";src:url(fonts/FrankRuhlLibre-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{--navy:#002160;--navy-2:#0c3480;--green:#346d0c;--green-soft:#eaf3e1;--paper:#f4f6f2;--card:#fff;--ink:#18202e;--muted:#5a6476;--line:#dfe4da;--err:#b3261e;--warn:#a15c00}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.6 Heebo,Arial,sans-serif}
+button,input,select{font:inherit}
+.wrap{max-width:1400px;margin:0 auto;padding:0 16px}
+
+/* כניסה */
+.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,#00143d,var(--navy) 60%,#0a2a6b)}
+.login form{width:100%;max-width:380px;background:#fff;border-radius:18px;padding:30px 26px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6);text-align:center}
+.login img{width:200px;height:auto;margin-bottom:10px}
+.login h1{font:700 22px "Frank Ruhl Libre",serif;color:var(--navy);margin:0 0 18px}
+.login input{width:100%;padding:12px 14px;border:1.5px solid #cdd4c6;border-radius:10px;font-size:16px;direction:ltr;text-align:center}
+.login .err{color:var(--err);font-size:14px;min-height:22px;margin:8px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;transition:background .2s}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--navy-2)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#4a8f1a}
+.btn-light{background:#fff;color:var(--navy);border:1.5px solid var(--line)}.btn-light:hover{border-color:var(--navy)}
+.login .btn{width:100%;margin-top:14px;padding:12px}
+
+/* כותרת */
+.top{background:#fff;border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;min-height:66px;flex-wrap:wrap}
+.top img{height:42px;width:auto}
+.top h1{font:700 20px "Frank Ruhl Libre",serif;color:var(--navy);margin:0}
+.top .sp{flex:1}
+.tabs{display:flex;gap:6px}
+.tabs button{background:none;border:0;padding:8px 14px;border-radius:999px;font-weight:500;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:var(--navy);color:#fff}
+
+/* סטטיסטיקה */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.stat .k{font-size:13px;color:var(--muted)}
+.stat .v{font:700 26px/1.2 Heebo,Arial,sans-serif;color:var(--navy);margin-top:4px}
+.stat .s{font-size:12.5px;color:var(--muted)}
+.stat.main{background:linear-gradient(135deg,var(--navy),#0b3482);border:0;color:#fff}
+.stat.main .k,.stat.main .s{color:#cfe6bd}.stat.main .v{color:#fff}
+
+/* מסננים */
+.filters{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:12px}
+.frow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.frow input[type=search]{flex:1 1 260px;padding:10px 12px;border:1.5px solid #cdd4c6;border-radius:10px}
+.frow select,.frow input[type=date]{padding:9px 10px;border:1.5px solid #cdd4c6;border-radius:10px;background:#fff}
+.frow label.l{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:14px;font-weight:500;color:var(--ink);transition:all .15s}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 10px}
+.bar .count{font-weight:700;color:var(--navy)}
+.bar .sp{flex:1}
+
+/* טבלה */
+table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+th,td{text-align:right;padding:10px 12px;border-bottom:1px solid #eef1ea;vertical-align:top}
+th{background:#f7f9f5;font-size:13px;color:var(--muted);font-weight:500;white-space:nowrap;cursor:pointer;user-select:none}
+th .ar{opacity:.5}
+tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:#fafcf8}
+td.nm b{color:var(--navy)}
+td .ltr{direction:ltr;unicode-bidi:isolate}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:12.5px;background:var(--green-soft);color:#24500a;border-radius:6px;padding:1px 8px;white-space:nowrap}
+.tag.blue{background:#e6edfa;color:var(--navy)}
+.tag.dup{background:#fff1dc;color:var(--warn)}
+.src{font-size:12px;color:var(--muted)}
+.notes{max-width:260px;white-space:pre-wrap;word-break:break-word;font-size:13.5px;color:#333}
+.del{background:none;border:0;color:#a0a7b4;cursor:pointer;font-size:18px;padding:2px 6px;border-radius:6px}
+.del:hover{color:var(--err);background:#fbeaea}
+.cards{display:none}
+@media (max-width:1000px){
+  table.reg{display:none}
+  .cards{display:grid;gap:10px}
+  .rc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+  .rc .h{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+  .rc .h b{color:var(--navy);font-size:17px}
+  .rc dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:10px 0 8px;font-size:14px}
+  .rc dt{color:var(--muted)}.rc dd{margin:0}
+}
+.more{display:block;margin:14px auto 30px}
+.empty{background:#fff;border:1px dashed var(--line);border-radius:14px;padding:40px;text-align:center;color:var(--muted)}
+.st-sent{color:var(--green);font-weight:700}.st-error{color:var(--err);font-weight:700}.st-test,.st-limited{color:var(--warn);font-weight:700}
+.log td.d{font-size:12.5px;color:var(--muted);word-break:break-word;max-width:520px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:10px;box-shadow:0 10px 30px -10px rgba(0,0,0,.4);z-index:50}
+</style>
+</head>
+<body>
+
+<div class="login" id="loginView">
+  <form id="loginForm">
+    <img src="logo.png" alt="השקעה לכתחילה">
+    <h1>ניהול רישומים</h1>
+    <input type="password" id="pw" placeholder="סיסמה" autocomplete="current-password" required>
+    <p class="err" id="loginErr"></p>
+    <button class="btn btn-primary" type="submit">כניסה</button>
+  </form>
+</div>
+
+<div id="appView" hidden>
+  <header class="top"><div class="wrap">
+    <img src="logo.png" alt="">
+    <h1>ניהול רישומים</h1>
+    <div class="tabs"><button class="on" data-tab="reg">נרשמים</button><button data-tab="log">יומן מיילים</button></div>
+    <span class="sp"></span>
+    <button class="btn btn-light" id="refresh" type="button">רענון</button>
+    <button class="btn btn-light" id="logout" type="button">יציאה</button>
+  </div></header>
+
+  <main class="wrap">
+    <section id="tabReg">
+      <div class="stats" id="stats"></div>
+
+      <div class="filters">
+        <div class="frow">
+          <input type="search" id="q" placeholder="חיפוש: שם, ת.ז., טלפון, אימייל, הערות">
+          <label class="l">מקור <select id="src"><option value="">הכול</option><option value="web">אתר</option><option value="email">מייל</option></select></label>
+          <label class="l">מתאריך <input type="date" id="from"></label>
+          <label class="l">עד <input type="date" id="to"></label>
+        </div>
+        <div class="chips" id="chips">
+          <button class="chip" data-f="pension_one" type="button">פנסיה - אחד מבני הזוג</button>
+          <button class="chip" data-f="pension_both" type="button">פנסיה - שני בני הזוג</button>
+          <button class="chip" data-f="child" type="button">חיסכון לכל ילד</button>
+          <button class="chip" data-f="hishtalmut" type="button">קרן השתלמות</button>
+          <button class="chip" data-f="gemel" type="button">גמל להשקעה</button>
+          <button class="chip" data-f="invest" type="button">השקעה עצמאית</button>
+          <button class="chip" data-f="mortgage" type="button">משכנתא</button>
+          <button class="chip" data-f="notes" type="button">עם הערות</button>
+          <button class="chip" data-f="dup" type="button">ת.ז. כפולה</button>
+        </div>
+      </div>
+
+      <div class="bar">
+        <span class="count" id="count"></span>
+        <span class="sp"></span>
+        <button class="btn btn-light" id="clear" type="button">ניקוי מסננים</button>
+        <button class="btn btn-green" id="csv" type="button">ייצוא לאקסל (CSV)</button>
+      </div>
+
+      <table class="reg">
+        <thead><tr>
+          <th data-sort="created_at">תאריך <span class="ar"></span></th>
+          <th data-sort="last_name">שם <span class="ar"></span></th>
+          <th data-sort="id_number">ת.ז. <span class="ar"></span></th>
+          <th>טלפון / אימייל</th>
+          <th>קופות</th>
+          <th data-sort="invest_amount">השקעה עצמאית <span class="ar"></span></th>
+          <th>משכנתא</th>
+          <th>הערות</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="cards" id="cards"></div>
+      <div class="empty" id="empty" hidden>אין רישומים שתואמים את הסינון</div>
+      <button class="btn btn-light more" id="moreBtn" type="button" hidden>הצגת עוד</button>
+    </section>
+
+    <section id="tabLog" hidden>
+      <p style="color:var(--muted);margin:18px 0 10px">בקשות "הצטרפות" שהגיעו במייל, והאם טופס ההצטרפות נשלח (500 האחרונות).</p>
+      <table class="log"><thead><tr><th>זמן</th><th>אימייל</th><th>סטטוס</th><th>פרטים</th></tr></thead><tbody id="logBody"></tbody></table>
+    </section>
+  </main>
+</div>
+
+<script>
+(function () {
+  var API = '/api/admin/data', KEY_STORE = 'lh_admin_key', PAGE = 200;
+  var key = '', rows = [], dupIds = {}, shown = PAGE, sort = { k: 'created_at', dir: -1 }, active = {};
+  var $ = function (id) { return document.getElementById(id); };
+  function store(get, v) { try { if (get) return sessionStorage.getItem(KEY_STORE) || ''; if (v) sessionStorage.setItem(KEY_STORE, v); else sessionStorage.removeItem(KEY_STORE); } catch (e) { return ''; } }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fmtNum(n) { return Number(n || 0).toLocaleString('en-US'); }
+  function fmtDate(iso) { var d = new Date(iso); if (isNaN(d)) return ''; return d.toLocaleDateString('he-IL') + ' ' + d.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }); }
+  function localDay(iso) { var d = new Date(iso); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function phoneFmt(p) { p = String(p || ''); return p.length === 10 ? p.slice(0, 3) + '-' + p.slice(3) : p; }
+  function toast(msg) { var t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2500); }
+
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = { Authorization: 'Bearer ' + key };
+    return fetch(path, opts).then(function (r) {
+      if (r.status === 401) { logout('סיסמה שגויה'); throw new Error('unauthorized'); }
+      return r.json().then(function (j) { if (!j.ok) throw new Error(j.error || 'error'); return j; });
+    });
+  }
+
+  // ---------- כניסה ----------
+  function showApp(on) { $('loginView').hidden = on; $('appView').hidden = !on; }
+  function logout(msg) { key = ''; store(false, ''); showApp(false); $('loginErr').textContent = msg || ''; $('pw').value = ''; }
+  $('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault(); key = $('pw').value.trim(); $('loginErr').textContent = '';
+    load().then(function () { store(false, key); showApp(true); }).catch(function (err) { if (err.message !== 'unauthorized') $('loginErr').textContent = 'שגיאה: ' + err.message; });
+  });
+  $('logout').addEventListener('click', function () { logout(''); });
+  $('refresh').addEventListener('click', function () { load().then(function () { toast('הנתונים עודכנו'); }); if (!$('tabLog').hidden) loadLog(); });
+
+  // ---------- נתונים ----------
+  function load() {
+    return api(API).then(function (j) {
+      rows = j.rows || [];
+      var c = {}; rows.forEach(function (r) { c[r.id_number] = (c[r.id_number] || 0) + 1; });
+      dupIds = {}; Object.keys(c).forEach(function (k) { if (c[k] > 1) dupIds[k] = c[k]; });
+      renderStats(); render();
+    });
+  }
+
+  function renderStats() {
+    var today = localDay(new Date().toISOString()), s = { t: 0, today: 0, week: 0, one: 0, both: 0, child: 0, kids: 0, hish: 0, hishN: 0, gemel: 0, gemelN: 0, inv: 0, invSum: 0, mort: 0, email: 0 };
+    var weekAgo = Date.now() - 7 * 864e5;
+    rows.forEach(function (r) {
+      s.t++; if (localDay(r.created_at) === today) s.today++; if (new Date(r.created_at) > weekAgo) s.week++;
+      if (r.pension === 'one') s.one++; if (r.pension === 'both') s.both++;
+      if (r.child_count > 0) { s.child++; s.kids += r.child_count; }
+      if (r.hishtalmut_count > 0) { s.hish++; s.hishN += r.hishtalmut_count; }
+      if (r.gemel_count > 0) { s.gemel++; s.gemelN += r.gemel_count; }
+      if (r.invest) { s.inv++; s.invSum += r.invest_amount || 0; }
+      if (r.mortgage) s.mort++; if (r.source === 'email') s.email++;
+    });
+    var cards = [
+      ['main', 'סך הכול נרשמים', fmtNum(s.t), 'היום ' + s.today + ' · בשבוע האחרון ' + s.week],
+      ['', 'קרן פנסיה', fmtNum(s.one + s.both), 'לאחד ' + s.one + ' · לשניים ' + s.both + ' · סה"כ ' + fmtNum(s.one + s.both * 2) + ' קרנות'],
+      ['', 'חיסכון לכל ילד', fmtNum(s.child), fmtNum(s.kids) + ' ילדים'],
+      ['', 'קרן השתלמות', fmtNum(s.hish), fmtNum(s.hishN) + ' קרנות'],
+      ['', 'גמל להשקעה', fmtNum(s.gemel), fmtNum(s.gemelN) + ' קופות'],
+      ['', 'השקעה עצמאית', fmtNum(s.inv), 'סכום משוער ₪' + fmtNum(s.invSum)],
+      ['', 'משכנתא', fmtNum(s.mort), ''],
+      ['', 'נרשמו דרך המייל', fmtNum(s.email), 'באתר ' + fmtNum(s.t - s.email)],
+    ];
+    $('stats').innerHTML = cards.map(function (c) { return '<div class="stat ' + c[0] + '"><div class="k">' + c[1] + '</div><div class="v">' + c[2] + '</div><div class="s">' + c[3] + '</div></div>'; }).join('');
+  }
+
+  function filtered() {
+    var q = $('q').value.trim().toLowerCase(), qd = q.replace(/\D/g, ''), src = $('src').value, from = $('from').value, to = $('to').value;
+    return rows.filter(function (r) {
+      if (src && r.source !== src) return false;
+      var day = localDay(r.created_at);
+      if (from && day < from) return false;
+      if (to && day > to) return false;
+      if (active.pension_one && r.pension !== 'one') return false;
+      if (active.pension_both && r.pension !== 'both') return false;
+      if (active.child && !(r.child_count > 0)) return false;
+      if (active.hishtalmut && !(r.hishtalmut_count > 0)) return false;
+      if (active.gemel && !(r.gemel_count > 0)) return false;
+      if (active.invest && !r.invest) return false;
+      if (active.mortgage && !r.mortgage) return false;
+      if (active.notes && !r.notes) return false;
+      if (active.dup && !dupIds[r.id_number]) return false;
+      if (q) {
+        var hay = [r.first_name, r.last_name, r.first_name + ' ' + r.last_name, r.email, r.notes].join(' ').toLowerCase();
+        var hit = hay.indexOf(q) >= 0 || (qd.length >= 3 && (String(r.id_number).indexOf(qd) >= 0 || String(r.phone).indexOf(qd) >= 0));
+        if (!hit) return false;
+      }
+      return true;
+    }).sort(function (a, b) {
+      var x = a[sort.k], y = b[sort.k];
+      if (typeof x === 'number' || typeof y === 'number') return ((x || 0) - (y || 0)) * sort.dir;
+      return String(x || '').localeCompare(String(y || ''), 'he') * sort.dir;
+    });
+  }
+
+  function tagsOf(r) {
+    var t = [];
+    if (r.pension === 'one') t.push('פנסיה לאחד'); if (r.pension === 'both') t.push('פנסיה לשניים');
+    if (r.child_count > 0) t.push('חיסכון לכל ילד ×' + r.child_count);
+    if (r.hishtalmut_count > 0) t.push('השתלמות ×' + r.hishtalmut_count);
+    if (r.gemel_count > 0) t.push('גמל ×' + r.gemel_count);
+    return t.map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join('');
+  }
+  function srcLabel(r) { return r.source === 'email' ? 'מייל' : 'אתר'; }
+  function dupTag(r) { return dupIds[r.id_number] ? ' <span class="tag dup" title="ת.ז. זו נרשמה ' + dupIds[r.id_number] + ' פעמים">כפול ×' + dupIds[r.id_number] + '</span>' : ''; }
+
+  function render() {
+    var list = filtered(), part = list.slice(0, shown);
+    $('count').textContent = list.length === rows.length ? rows.length + ' רישומים' : list.length + ' מתוך ' + rows.length + ' רישומים';
+    $('empty').hidden = list.length > 0;
+    $('moreBtn').hidden = list.length <= shown;
+    $('moreBtn').textContent = 'הצגת עוד (' + (list.length - shown) + ' נוספים)';
+    $('tbody').innerHTML = part.map(function (r) {
+      return '<tr>' +
+        '<td><span style="white-space:nowrap">' + fmtDate(r.created_at) + '</span><div class="src">' + srcLabel(r) + '</div></td>' +
+        '<td class="nm"><b>' + esc(r.first_name + ' ' + r.last_name) + '</b></td>' +
+        '<td><span class="ltr">' + esc(r.id_number) + '</span>' + dupTag(r) + '</td>' +
+        '<td><a class="ltr" href="tel:' + esc(r.phone) + '">' + esc(phoneFmt(r.phone)) + '</a>' + (r.email ? '<div><a class="ltr" href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a></div>' : '') + '</td>' +
+        '<td><div class="tags">' + tagsOf(r) + '</div></td>' +
+        '<td>' + (r.invest ? '<span class="tag blue">כן</span> ' + (r.invest_amount ? '₪' + fmtNum(r.invest_amount) : '') : '') + '</td>' +
+        '<td>' + (r.mortgage ? '<span class="tag blue">כן</span>' : '') + '</td>' +
+        '<td><div class="notes">' + esc(r.notes) + '</div></td>' +
+        '<td><button class="del" type="button" title="מחיקה" data-del="' + r.id + '">🗑</button></td></tr>';
+    }).join('');
+    $('cards').innerHTML = part.map(function (r) {
+      return '<div class="rc"><div class="h"><div><b>' + esc(r.first_name + ' ' + r.last_name) + '</b>' + dupTag(r) + '<div class="src">' + fmtDate(r.created_at) + ' · ' + srcLabel(r) + '</div></div>' +
+        '<button class="del" type="button" title="מחיקה" data-del="' + r.id + '">🗑</button></div>' +
+        '<dl><dt>ת.ז.</dt><dd class="ltr">' + esc(r.id_number) + '</dd>' +
+        '<dt>טלפון</dt><dd><a href="tel:' + esc(r.phone) + '">' + esc(phoneFmt(r.phone)) + '</a></dd>' +
+        (r.email ? '<dt>אימייל</dt><dd><a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a></dd>' : '') +
+        (r.invest ? '<dt>השקעה עצמאית</dt><dd>כן' + (r.invest_amount ? ' · ₪' + fmtNum(r.invest_amount) : '') + '</dd>' : '') +
+        (r.mortgage ? '<dt>משכנתא</dt><dd>כן</dd>' : '') +
+        (r.notes ? '<dt>הערות</dt><dd class="notes">' + esc(r.notes) + '</dd>' : '') +
+        '</dl><div class="tags">' + tagsOf(r) + '</div></div>';
+    }).join('');
+    document.querySelectorAll('th[data-sort]').forEach(function (th) { th.querySelector('.ar').textContent = th.dataset.sort === sort.k ? (sort.dir < 0 ? '▼' : '▲') : ''; });
+  }
+
+  // ---------- אירועים ----------
+  ['q', 'src', 'from', 'to'].forEach(function (id) { $(id).addEventListener('input', function () { shown = PAGE; render(); }); });
+  $('chips').addEventListener('click', function (e) {
+    var c = e.target.closest('.chip'); if (!c) return;
+    var f = c.dataset.f; active[f] = !active[f];
+    if (f === 'pension_one' && active[f]) active.pension_both = false;
+    if (f === 'pension_both' && active[f]) active.pension_one = false;
+    document.querySelectorAll('.chip').forEach(function (x) { x.classList.toggle('on', !!active[x.dataset.f]); });
+    shown = PAGE; render();
+  });
+  $('clear').addEventListener('click', function () {
+    active = {}; $('q').value = ''; $('src').value = ''; $('from').value = ''; $('to').value = '';
+    document.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); }); shown = PAGE; render();
+  });
+  document.querySelectorAll('th[data-sort]').forEach(function (th) {
+    th.addEventListener('click', function () { var k = th.dataset.sort; sort = { k: k, dir: sort.k === k ? -sort.dir : (k === 'created_at' || k === 'invest_amount' ? -1 : 1) }; render(); });
+  });
+  $('moreBtn').addEventListener('click', function () { shown += PAGE; render(); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-del]'); if (!b) return;
+    var r = rows.find(function (x) { return String(x.id) === b.dataset.del; });
+    if (!r || !confirm('למחוק את הרישום של ' + r.first_name + ' ' + r.last_name + ' (ת.ז. ' + r.id_number + ')?\nלא ניתן לבטל.')) return;
+    api(API + '?id=' + r.id, { method: 'DELETE' }).then(function () { toast('הרישום נמחק'); return load(); }).catch(function (err) { alert('המחיקה נכשלה: ' + err.message); });
+  });
+
+  // ייצוא CSV (נפתח באקסל עם עברית תקינה)
+  $('csv').addEventListener('click', function () {
+    var list = filtered();
+    var head = ['תאריך', 'שם פרטי', 'שם משפחה', 'ת.ז.', 'טלפון', 'אימייל', 'קרן פנסיה', 'חיסכון לכל ילד (ילדים)', 'קרנות השתלמות', 'קופות גמל להשקעה', 'השקעה עצמאית', 'סכום משוער', 'משכנתא', 'הערות', 'מקור'];
+    var q = function (v) { v = String(v == null ? '' : v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var txt = function (v) { return '="' + String(v || '').replace(/"/g, '') + '"'; };          // שומר אפסים מובילים בת.ז. ובטלפון
+    var lines = [head.join(',')].concat(list.map(function (r) {
+      return [fmtDate(r.created_at), r.first_name, r.last_name, txt(r.id_number), txt(phoneFmt(r.phone)), r.email,
+        r.pension === 'one' ? 'לאחד מבני הזוג' : r.pension === 'both' ? 'לשני בני הזוג' : '',
+        r.child_count || '', r.hishtalmut_count || '', r.gemel_count || '', r.invest ? 'כן' : '', r.invest_amount || '', r.mortgage ? 'כן' : '', r.notes, srcLabel(r)].map(function (v, i) { return i === 3 || i === 4 ? v : q(v); }).join(',');
+    }));
+    var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'registrations-' + localDay(new Date().toISOString()) + '.csv';
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  });
+
+  // ---------- לשוניות / יומן ----------
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.tabs button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      $('tabReg').hidden = b.dataset.tab !== 'reg'; $('tabLog').hidden = b.dataset.tab !== 'log';
+      if (b.dataset.tab === 'log') loadLog();
+    });
+  });
+  var ST = { sent: 'נשלח', test: 'בדיקה', limited: 'נחסם (הגבלה)', error: 'שגיאה' };
+  function loadLog() {
+    api(API + '?log=1').then(function (j) {
+      $('logBody').innerHTML = (j.log || []).map(function (l) {
+        return '<tr><td style="white-space:nowrap">' + fmtDate(l.created_at) + '</td><td class="ltr">' + esc(l.email) + '</td><td class="st-' + esc(l.status) + '">' + esc(ST[l.status] || l.status) + '</td><td class="d">' + esc(l.detail) + '</td></tr>';
+      }).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted)">אין רשומות</td></tr>';
+    }).catch(function () {});
+  }
+
+  // כניסה אוטומטית בתוך אותה לשונית דפדפן
+  key = store(true);
+  if (key) load().then(function () { showApp(true); }).catch(function () {});
+})();
+</script>
+</body>
+</html>

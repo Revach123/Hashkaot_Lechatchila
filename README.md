@@ -33,3 +33,7 @@
 סוד ב-Email Worker: `JOIN_SECRET` (אותו ערך). אופציונלי: `FORWARD_TO`.
 
 יומן השליחות: `SELECT * FROM join_requests ORDER BY id DESC;`
+
+## דף ניהול
+`https://lehathila.com/admin.html` - רשימת הנרשמים, סטטיסטיקה, סינון, ייצוא CSV, מחיקה, ויומן מיילי ההצטרפות.
+הסיסמה: הסוד `ADMIN_KEY` בפרויקט ה-Pages (Secret). ה-API: `functions/api/admin/data.js`.
