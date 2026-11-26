@@ -44,7 +44,7 @@ export function htmlBody() {
 <p style="font-size:16px;line-height:1.7;margin:0 0 12px">תודה על פנייתך. מטרתנו להביא לציבור המדקדקים מסלולי פנסיה והשקעות מחקי מדדים, בהידור הגבוה ביותר וללא כל חשש איסורי ריבית ושאר איסורים.</p>
 <p style="text-align:center;margin:20px 0"><a href="${SITE}/#register" style="display:inline-block;background:#346d0c;color:#fff;text-decoration:none;font-weight:bold;font-size:17px;padding:12px 28px;border-radius:999px">למילוי טופס הרישום</a></p>
 <p style="font-size:15px;margin:0 0 6px">קו מידע והרשמה טלפונית: <b dir="ltr">${PHONE}</b> - ניתן להשאיר הודעות בשלוחה 8.</p>
-<p style="font-size:13px;color:#5b6476;line-height:1.6;margin:14px 0 0">מדובר ברישום בלבד, הרישום אינו מחייב, ואין לראות בדברים המלצה, שיווק, או ייעוץ השקעות, או תחליף לשיקול דעת עצמאי.</p>
+<p style="font-size:13px;color:#5b6476;line-height:1.6;margin:14px 0 0">מדובר ברישום בלבד, הרישום אינו מחייב, ואין לראות בדברים המלצה, שיווק, או ייעוץ השקעות, או תחליף לשיקול דעת עצמאי. · <a href="${SITE}/privacy" style="color:#5b6476">מדיניות פרטיות</a></p>
 </div></div></div></body></html>`;
 }
 
@@ -144,7 +144,7 @@ button{display:block;width:100%;background:#002160;color:#fff;border:0;border-ra
 <div submit-error><template type="amp-mustache"><div class="bad">{{message}}</div></template></div>
 </form>
 
-<p class="small foot">קו מידע והרשמה טלפונית: ${PHONE} - ניתן להשאיר הודעות בשלוחה 8.<br>אפשר להירשם גם באתר: <a href="${SITE}/#register">lehathila.com</a></p>
+<p class="small foot">קו מידע והרשמה טלפונית: ${PHONE} - ניתן להשאיר הודעות בשלוחה 8.<br>אפשר להירשם גם באתר: <a href="${SITE}/#register">lehathila.com</a> · <a href="${SITE}/privacy">מדיניות פרטיות</a></p>
 </div></div></div>
 </body>
 </html>`;
