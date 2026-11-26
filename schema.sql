@@ -18,3 +18,13 @@ CREATE TABLE IF NOT EXISTS registrations (
   source           TEXT               -- web / email (בהמשך: טופס מהמייל הדינמי)
 );
 CREATE INDEX IF NOT EXISTS idx_registrations_id_number ON registrations(id_number);
+
+-- יומן בקשות ההצטרפות במייל (מי ביקש, מתי, האם נשלח). משמש גם להגבלת שליחות חוזרות.
+CREATE TABLE IF NOT EXISTS join_requests (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  created_at TEXT NOT NULL,
+  email      TEXT NOT NULL,
+  status     TEXT NOT NULL,   -- sent / limited / error
+  detail     TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_join_requests_email ON join_requests(email, created_at);
