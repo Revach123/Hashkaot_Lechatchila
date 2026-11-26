@@ -133,7 +133,7 @@ button{display:block;width:100%;background:#002160;color:#fff;border:0;border-ra
 <textarea class="fld" id="nt" name="notes" maxlength="1000"></textarea>
 
 <h2>שאלות נוספות</h2>
-<div class="opt"><label><input type="checkbox" name="invest" value="1"> אני מעוניין גם להשקיע (בחשבון מסחר עצמאי) בקרנות סל ונאמנות ללא היתר עיסקא במתווה הנ"ל</label><br>סכום משוער (₪): <input class="fld amt" type="text" name="invest_amount" pattern="[0-9,]*" maxlength="16" placeholder="1,000"></div>
+<div class="opt"><label><input type="checkbox" name="invest" value="1"> אני מעוניין גם להשקיע (בחשבון מסחר עצמאי) בקרנות סל ונאמנות ללא צורך בהיתר עיסקא במתווה הנ"ל</label><br>סכום משוער (₪): <input class="fld amt" type="text" name="invest_amount" pattern="[0-9,]*" maxlength="16" placeholder="1,000"></div>
 <div class="opt"><label><input type="checkbox" name="mortgage" value="1"> נטלתי הלוואת משכנתא (או שבכוונתי ליטול), ואני מעוניין בפתרונות למהדרין להלוואות משכנתא.</label></div>
 
 <button type="submit">לאישור ושליחת הטופס</button>
