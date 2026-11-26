@@ -170,6 +170,14 @@ td .ltr{direction:ltr;unicode-bidi:isolate}
     </section>
 
     <section id="tabLog" hidden>
+      <div class="filters" style="margin-top:18px">
+        <b style="color:var(--navy)">שליחת מייל ההצטרפות לכתובת</b>
+        <div class="frow">
+          <input type="search" id="sendTo" placeholder="כתובת מייל" style="direction:ltr;text-align:right" value="ampforemail.whitelisting@gmail.com">
+          <button class="btn btn-green" id="sendBtn" type="button">שליחה</button>
+        </div>
+        <span style="font-size:13px;color:var(--muted)">ברירת המחדל היא כתובת הבדיקה של גוגל לאישור המייל הדינמי. אפשר לשלוח גם לכל כתובת אחרת לבדיקה.</span>
+      </div>
       <p style="color:var(--muted);margin:18px 0 10px">בקשות "הצטרפות" שהגיעו במייל, והאם טופס ההצטרפות נשלח (500 האחרונות).</p>
       <table class="log"><thead><tr><th>זמן</th><th>אימייל</th><th>סטטוס</th><th>פרטים</th></tr></thead><tbody id="logBody"></tbody></table>
     </section>
@@ -366,6 +374,16 @@ td .ltr{direction:ltr;unicode-bidi:isolate}
       $('tabReg').hidden = b.dataset.tab !== 'reg'; $('tabLog').hidden = b.dataset.tab !== 'log';
       if (b.dataset.tab === 'log') loadLog();
     });
+  });
+  $('sendBtn').addEventListener('click', function () {
+    var to = $('sendTo').value.trim();
+    if (!to || !confirm('לשלוח את מייל ההצטרפות אל ' + to + '?')) return;
+    $('sendBtn').disabled = true;
+    fetch('/api/admin/send-email', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, key ? { Authorization: 'Bearer ' + key } : {}), body: JSON.stringify({ to: to }) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { toast(j.ok ? (j.test_mode ? 'נשלח במצב בדיקה (לא נמסר בפועל)' : 'המייל נשלח') : 'השליחה נכשלה: ' + (j.detail || j.error)); loadLog(); })
+      .catch(function () { toast('השליחה נכשלה'); })
+      .then(function () { $('sendBtn').disabled = false; });
   });
   var ST = { sent: 'נשלח', test: 'בדיקה', limited: 'נחסם (הגבלה)', error: 'שגיאה' };
   function loadLog() {
