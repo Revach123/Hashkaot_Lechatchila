@@ -1,7 +1,7 @@
 // POST /api/join-request - נקרא ע"י ה-Email Worker (email-worker/worker.js) כשמגיע מייל עם "הצטרפות".
 // שולח לפונה את מייל ההצטרפות (טופס דינמי + HTML + טקסט) מ-info@lehathila.com דרך CloudMailin.
 // אימות: כותרת X-Join-Secret = הסוד JOIN_SECRET (מוגדר גם ב-Pages וגם ב-Worker).
-// הגבלה: מייל אחד לכתובת בכל 10 דקות, ועד 3 ביממה (טבלת join_requests).
+// הגבלה: מייל אחד לכתובת בכל 10 דקות, ועד 3 ביממה (טבלת join_requests; שליחות במצב בדיקה לא נספרות).
 // בדיקה בלי שליחה: ?dry=1 מחזיר את המייל הגולמי.
 import { json, getDb, validEmail } from "./_lib.js";
 import { buildJoinMail, sendRaw, FROM_ADDRESS } from "./_mail.js";
@@ -32,8 +32,10 @@ export async function onRequest({ request, env }) {
 
   try {
     const res = await sendRaw(env, to, raw);
-    await log(db, to, "sent", res.slice(0, 300));
-    return json({ ok: true, from: FROM_ADDRESS });
+    // במצב בדיקה (Test mode) CloudMailin לא שולח באמת - נרשם כ-test ולא נספר בהגבלת השליחות
+    let test = false; try { test = JSON.parse(res).test_mode === true; } catch { /* תשובה לא צפויה */ }
+    await log(db, to, test ? "test" : "sent", res.slice(0, 300));
+    return json({ ok: true, from: FROM_ADDRESS, test_mode: test });
   } catch (e) {
     await log(db, to, "error", String(e.message || e).slice(0, 300));
     return json({ ok: false, error: "send_failed" }, 502);

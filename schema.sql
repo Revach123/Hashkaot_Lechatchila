@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS join_requests (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
   created_at TEXT NOT NULL,
   email      TEXT NOT NULL,
-  status     TEXT NOT NULL,   -- sent / limited / error
+  status     TEXT NOT NULL,   -- sent / test / limited / error
   detail     TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_join_requests_email ON join_requests(email, created_at);
