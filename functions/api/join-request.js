@@ -25,7 +25,9 @@ export async function onRequest({ request, env }) {
     `SELECT COUNT(*) AS day, SUM(CASE WHEN created_at > ? THEN 1 ELSE 0 END) AS recent
        FROM join_requests WHERE email = ? AND created_at > ? AND status = 'sent'`
   ).bind(new Date(now - 10 * 60e3).toISOString(), to, new Date(now - 24 * 3600e3).toISOString()).first();
-  if (row && (row.recent > 0 || row.day >= 3)) {
+  // כתובות לבדיקה (משתנה JOIN_NO_LIMIT ב-Pages, מופרדות בפסיק) - בלי הגבלת שליחות
+  const noLimit = String(env.JOIN_NO_LIMIT || "").toLowerCase().split(",").map((x) => x.trim()).includes(to);
+  if (!noLimit && row && (row.recent > 0 || row.day >= 3)) {
     await log(db, to, "limited", "");
     return json({ ok: true, skipped: "rate_limited" });
   }
