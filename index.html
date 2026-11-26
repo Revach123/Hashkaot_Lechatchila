@@ -181,6 +181,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy-2);
 textarea{min-height:90px;resize:vertical}
 input.ltr{direction:ltr;text-align:right}
 .hint{font-size:14px;color:var(--muted);margin:0 0 10px}
+.idrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.idrow label.f{margin:0}
+.idtype{display:inline-flex;background:#eef1ea;border-radius:999px;padding:3px}
+.idtype button{border:0;background:none;font:500 13.5px Heebo,Arial,sans-serif;color:var(--muted);padding:3px 12px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.idtype button.on{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(0,20,61,.15)}
 .opt{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff;transition:border-color .2s,background .2s,box-shadow .2s}
 .opt:hover{border-color:#c4cfba}
 .opt.on{border-color:var(--green);background:#f6fbf2;box-shadow:0 6px 16px -12px rgba(52,109,12,.6)}
@@ -380,9 +385,12 @@ input.ltr{direction:ltr;text-align:right}
           <div data-field="last_name"><label class="f" for="last_name">שם משפחה <span class="req">*</span></label>
             <input type="text" id="last_name" name="last_name" autocomplete="family-name" maxlength="60" required>
             <div class="err-msg">נא למלא שם משפחה</div></div>
-          <div data-field="id_number"><label class="f" for="id_number">ת.ז. <span class="req">*</span></label>
+          <div data-field="id_number">
+            <div class="idrow"><label class="f" for="id_number"><span id="idLabel">ת.ז.</span> <span class="req">*</span></label>
+              <div class="idtype" role="group" aria-label="סוג מזהה"><button type="button" class="on" data-idt="tz">ת.ז.</button><button type="button" data-idt="passport">דרכון</button></div></div>
+            <input type="hidden" name="id_type" value="tz">
             <input type="text" id="id_number" name="id_number" inputmode="numeric" maxlength="9" class="ltr" required>
-            <div class="err-msg">מספר ת.ז. אינו תקין</div></div>
+            <div class="err-msg" id="idErr">מספר ת.ז. אינו תקין</div></div>
           <div data-field="phone"><label class="f" for="phone">פלאפון <span class="req">*</span></label>
             <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" maxlength="14" class="ltr" placeholder="05X-XXXXXXX" required>
             <div class="err-msg">מספר פלאפון אינו תקין</div></div>
@@ -467,7 +475,23 @@ input.ltr{direction:ltr;text-align:right}
     var d = amount.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 12);
     amount.value = d ? Number(d).toLocaleString('en-US') : '';
   });
-  form.elements.id_number.addEventListener('input', function (e) { e.target.value = e.target.value.replace(/\D/g, ''); });
+  // ת.ז. / דרכון
+  var idInput = form.elements.id_number;
+  function idType() { return form.elements.id_type.value; }
+  form.querySelector('.idtype').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-idt]'); if (!b) return;
+    var t = b.dataset.idt;
+    form.elements.id_type.value = t;
+    form.querySelectorAll('.idtype button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    document.getElementById('idLabel').textContent = t === 'passport' ? 'מספר דרכון' : 'ת.ז.';
+    document.getElementById('idErr').textContent = t === 'passport' ? 'מספר דרכון אינו תקין (אותיות באנגלית וספרות, 5-15 תווים)' : 'מספר ת.ז. אינו תקין';
+    idInput.setAttribute('inputmode', t === 'passport' ? 'text' : 'numeric');
+    idInput.maxLength = t === 'passport' ? 15 : 9;
+    idInput.value = ''; idInput.closest('[data-field]').classList.remove('bad'); idInput.focus();
+  });
+  idInput.addEventListener('input', function (e) {
+    e.target.value = idType() === 'passport' ? e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '') : e.target.value.replace(/\D/g, '');
+  });
 
   function validId(id) {
     if (!/^\d{5,9}$/.test(id)) return false;
@@ -482,7 +506,7 @@ input.ltr{direction:ltr;text-align:right}
     var f = form.elements, bad = [];
     if (!f.first_name.value.trim()) bad.push('first_name');
     if (!f.last_name.value.trim()) bad.push('last_name');
-    if (!validId(f.id_number.value.trim())) bad.push('id_number');
+    if (idType() === 'passport' ? !/^[A-Z0-9]{5,15}$/.test(f.id_number.value.trim()) : !validId(f.id_number.value.trim())) bad.push('id_number');
     if (!/^05\d{8}$/.test(cleanPhone(f.phone.value))) bad.push('phone');
     var em = f.email.value.trim();
     if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) bad.push('email');
@@ -511,7 +535,7 @@ input.ltr{direction:ltr;text-align:right}
     var data = {
       website: f.website.value,
       first_name: f.first_name.value.trim(), last_name: f.last_name.value.trim(),
-      id_number: f.id_number.value.trim(), phone: cleanPhone(f.phone.value), email: f.email.value.trim(),
+      id_type: idType(), id_number: f.id_number.value.trim(), phone: cleanPhone(f.phone.value), email: f.email.value.trim(),
       pension: pension ? pension.value : '',
       child_count: f.child_savings.checked ? Number(f.child_count.value) : 0,
       hishtalmut_count: f.hishtalmut.checked ? Number(f.hishtalmut_count.value) : 0,

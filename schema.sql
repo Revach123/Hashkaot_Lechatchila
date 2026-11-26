@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS registrations (
   created_at       TEXT NOT NULL,
   first_name       TEXT NOT NULL,
   last_name        TEXT NOT NULL,
-  id_number        TEXT NOT NULL,
+  id_number        TEXT NOT NULL,     -- ת.ז., או דרכון עם הקידומת P:
   phone            TEXT NOT NULL,
   email            TEXT,
   pension          TEXT,              -- one = לאחד מבני הזוג, both = לשני בני הזוג, ריק = לא סומן

@@ -23,9 +23,13 @@ const yes = (v) => v === true || v === "on" || v === "1" || v === "true";
 export function normalize(d) {
   const phone = str(d.phone, 20).replace(/[\s\-()]/g, "").replace(/^\+972/, "0");
   const invest = yes(d.invest);
+  // מזהה: ת.ז. (9 ספרות עם ספרת ביקורת) או דרכון (5-15 אותיות באנגלית / ספרות). דרכון נשמר עם הקידומת P:
+  const idType = d.id_type === "passport" ? "passport" : "tz";
+  const passport = str(d.id_number, 30).replace(/[\s\-]/g, "").toUpperCase();
+  const idNumber = idType === "passport" ? "P:" + passport : str(d.id_number, 12).replace(/\D/g, "");
   const r = {
     first_name: str(d.first_name, 60), last_name: str(d.last_name, 60),
-    id_number: str(d.id_number, 9).replace(/\D/g, ""), phone,
+    id_number: idNumber, phone,
     email: str(d.email, 120).toLowerCase(),
     pension: ["one", "both"].includes(d.pension) ? d.pension : "",
     child_count: yes(d.child_savings) ? int(d.child_count, 1, 20) : 0,
@@ -37,7 +41,7 @@ export function normalize(d) {
   const bad = [];
   if (!r.first_name) bad.push("first_name");
   if (!r.last_name) bad.push("last_name");
-  if (!validId(r.id_number)) bad.push("id_number");
+  if (idType === "passport" ? !/^[A-Z0-9]{5,15}$/.test(passport) : !validId(r.id_number)) bad.push("id_number");
   if (!/^05\d{8}$/.test(r.phone)) bad.push("phone");
   if (r.email && !validEmail(r.email)) bad.push("email");
   if (!r.pension && !r.child_count && !r.hishtalmut_count && !r.gemel_count) bad.push("funds");
@@ -46,7 +50,7 @@ export function normalize(d) {
 }
 
 export const FIELD_NAMES = {
-  first_name: "שם פרטי", last_name: "שם משפחה", id_number: "ת.ז.", phone: "פלאפון",
+  first_name: "שם פרטי", last_name: "שם משפחה", id_number: "ת.ז. / דרכון", phone: "פלאפון",
   email: "אימייל", funds: "סימון קופה אחת לפחות", consent: "אישור העברת המידע",
 };
 

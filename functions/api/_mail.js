@@ -108,10 +108,12 @@ button{display:block;width:100%;background:#002160;color:#fff;border:0;border-ra
 <label class="f" for="ln">שם משפחה <span class="req">*</span></label>
 <input class="fld" type="text" id="ln" name="last_name" required maxlength="60">
 <span class="err" visible-when-invalid="valueMissing" validation-for="ln">נא למלא שם משפחה</span>
-<label class="f" for="tz">ת.ז. <span class="req">*</span></label>
-<input class="fld" type="text" id="tz" name="id_number" required pattern="[0-9]{5,9}" maxlength="9">
-<span class="err" visible-when-invalid="valueMissing" validation-for="tz">נא למלא ת.ז.</span>
-<span class="err" visible-when-invalid="patternMismatch" validation-for="tz">ספרות בלבד</span>
+<label class="f" for="idt">סוג מזהה</label>
+<select class="fld" id="idt" name="id_type"><option value="tz">ת.ז.</option><option value="passport">דרכון</option></select>
+<label class="f" for="tz">מספר ת.ז. / דרכון <span class="req">*</span></label>
+<input class="fld" type="text" id="tz" name="id_number" required pattern="[A-Za-z0-9]{5,15}" maxlength="15">
+<span class="err" visible-when-invalid="valueMissing" validation-for="tz">נא למלא ת.ז. או מספר דרכון</span>
+<span class="err" visible-when-invalid="patternMismatch" validation-for="tz">ספרות ואותיות באנגלית בלבד</span>
 <label class="f" for="ph">פלאפון <span class="req">*</span></label>
 <input class="fld" type="tel" id="ph" name="phone" required maxlength="14" placeholder="05X-XXXXXXX">
 <span class="err" visible-when-invalid="valueMissing" validation-for="ph">נא למלא פלאפון</span>
