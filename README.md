@@ -36,4 +36,5 @@
 
 ## דף ניהול
 `https://lehathila.com/admin.html` - רשימת הנרשמים, סטטיסטיקה, סינון, ייצוא CSV, מחיקה, ויומן מיילי ההצטרפות.
-הסיסמה: הסוד `ADMIN_KEY` בפרויקט ה-Pages (Secret). ה-API: `functions/api/admin/data.js`.
+הגנה: Cloudflare Access (אפליקציה "ניהול רישומים"), והקוד מאמת את ה-JWT של Access - משתנים ב-Pages: `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`.
+אופציונלי: סיסמה נוספת בסוד `ADMIN_KEY`. ה-API: `functions/api/admin/data.js`, האימות: `functions/api/admin/_auth.js`.

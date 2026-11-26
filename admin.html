@@ -114,6 +114,7 @@ td .ltr{direction:ltr;unicode-bidi:isolate}
     <h1>ניהול רישומים</h1>
     <div class="tabs"><button class="on" data-tab="reg">נרשמים</button><button data-tab="log">יומן מיילים</button></div>
     <span class="sp"></span>
+    <span id="who" style="color:var(--muted);font-size:13px;direction:ltr"></span>
     <button class="btn btn-light" id="refresh" type="button">רענון</button>
     <button class="btn btn-light" id="logout" type="button">יציאה</button>
   </div></header>
@@ -190,9 +191,9 @@ td .ltr{direction:ltr;unicode-bidi:isolate}
 
   function api(path, opts) {
     opts = opts || {};
-    opts.headers = { Authorization: 'Bearer ' + key };
+    opts.headers = key ? { Authorization: 'Bearer ' + key } : {};
     return fetch(path, opts).then(function (r) {
-      if (r.status === 401) { logout('סיסמה שגויה'); throw new Error('unauthorized'); }
+      if (r.status === 401) { logout(key ? 'סיסמה שגויה' : ''); throw new Error('unauthorized'); }
       return r.json().then(function (j) { if (!j.ok) throw new Error(j.error || 'error'); return j; });
     });
   }
@@ -204,13 +205,16 @@ td .ltr{direction:ltr;unicode-bidi:isolate}
     e.preventDefault(); key = $('pw').value.trim(); $('loginErr').textContent = '';
     load().then(function () { store(false, key); showApp(true); }).catch(function (err) { if (err.message !== 'unauthorized') $('loginErr').textContent = 'שגיאה: ' + err.message; });
   });
-  $('logout').addEventListener('click', function () { logout(''); });
+  $('logout').addEventListener('click', function () {
+    if (key) logout(''); else location.href = '/cdn-cgi/access/logout';   // כניסה דרך Cloudflare Access
+  });
   $('refresh').addEventListener('click', function () { load().then(function () { toast('הנתונים עודכנו'); }); if (!$('tabLog').hidden) loadLog(); });
 
   // ---------- נתונים ----------
   function load() {
     return api(API).then(function (j) {
       rows = j.rows || [];
+      if (j.user && j.user !== 'password') $('who').textContent = j.user;
       var c = {}; rows.forEach(function (r) { c[r.id_number] = (c[r.id_number] || 0) + 1; });
       dupIds = {}; Object.keys(c).forEach(function (k) { if (c[k] > 1) dupIds[k] = c[k]; });
       renderStats(); render();
@@ -372,9 +376,13 @@ td .ltr{direction:ltr;unicode-bidi:isolate}
     }).catch(function () {});
   }
 
-  // כניסה אוטומטית בתוך אותה לשונית דפדפן
+  // כניסה: קודם בלי סיסמה (Cloudflare Access מזהה את המשתמש). רק אם האתר מבקש - מסך סיסמה.
   key = store(true);
-  if (key) load().then(function () { showApp(true); }).catch(function () {});
+  $('loginView').hidden = true;
+  load().then(function () { showApp(true); }).catch(function (err) {
+    showApp(false);
+    if (err.message === 'not_configured') $('loginErr').textContent = 'הגישה לדף הניהול עוד לא הוגדרה ב-Cloudflare (ACCESS_TEAM_DOMAIN + ACCESS_AUD, או ADMIN_KEY).';
+  });
 })();
 </script>
 </body>

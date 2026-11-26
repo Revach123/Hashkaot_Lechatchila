@@ -1,26 +1,16 @@
-// /api/admin/data - נתוני דף הניהול (admin.html). מוגן בסיסמה: הסוד ADMIN_KEY ב-Cloudflare Pages.
+// /api/admin/data - נתוני דף הניהול (admin.html). מוגן ב-Cloudflare Access ו/או בסיסמה ADMIN_KEY - ראה _auth.js.
 //   GET                - כל הרישומים (מהחדש לישן)
 //   GET ?log=1         - יומן בקשות ההצטרפות במייל (500 אחרונות)
 //   DELETE ?id=123     - מחיקת רישום
-// הסיסמה נשלחת בכותרת Authorization: Bearer <ADMIN_KEY>.
 import { json, getDb } from "../_lib.js";
+import { adminAuth } from "./_auth.js";
 
 const NO_STORE = { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" };
 
-async function sameSecret(a, b) {
-  const enc = new TextEncoder();
-  const [x, y] = await Promise.all([crypto.subtle.digest("SHA-256", enc.encode(a)), crypto.subtle.digest("SHA-256", enc.encode(b))]);
-  const u = new Uint8Array(x), v = new Uint8Array(y);
-  let diff = 0;
-  for (let i = 0; i < u.length; i++) diff |= u[i] ^ v[i];
-  return diff === 0;
-}
-
 export async function onRequest({ request, env }) {
-  const key = env.ADMIN_KEY;
-  if (!key || key.length < 10) return json({ ok: false, error: "ADMIN_KEY לא הוגדר ב-Cloudflare" }, 503, NO_STORE);
-  const given = (request.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
-  if (!given || !(await sameSecret(given, key))) {
+  const auth = await adminAuth(request, env);
+  if (!auth.configured) return json({ ok: false, error: "not_configured" }, 503, NO_STORE);
+  if (!auth.ok) {
     await new Promise((r) => setTimeout(r, 800));                 // האטה לניסיונות ניחוש
     return json({ ok: false, error: "unauthorized" }, 401, NO_STORE);
   }
@@ -34,7 +24,7 @@ export async function onRequest({ request, env }) {
     }
     if (request.method === "GET") {
       const { results } = await db.prepare(`SELECT * FROM registrations ORDER BY id DESC`).all();
-      return json({ ok: true, rows: results }, 200, NO_STORE);
+      return json({ ok: true, rows: results, user: auth.user }, 200, NO_STORE);
     }
     if (request.method === "DELETE") {
       const id = Number(url.searchParams.get("id"));
